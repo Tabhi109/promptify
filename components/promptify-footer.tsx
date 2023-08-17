@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
           </a>
         </div>
       </div>
-      <p>Hi, I'm Abhinav Tripathi. Connect with me on LinkedIn, Instagram, and GitHub.</p>
+      <p>Hi, I am Abhinav Tripathi. Connect with me on LinkedIn, Instagram, and GitHub.</p>
     </footer>
   );
 };
