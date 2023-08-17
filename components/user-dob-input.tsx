@@ -10,11 +10,11 @@ interface UserDOBProps {
 const UserDOB: React.FC<UserDOBProps> = ({ dob, onChange }) => {
   return (
     <div className="mb-4">
-      <label className="block text-gray-700 font-bold mb-2">Date of Birth</label>
+      <label className="block text-gray-400 font-bold mb-2">Date of Birth</label>
       <DatePicker
         selected={dob}
         onChange={onChange}
-        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="appearance-none border rounded w-full py-2 px-3 text-white bg-gray-600 leading-tight focus:outline-none focus:shadow-outline"
       />
     </div>
   );
