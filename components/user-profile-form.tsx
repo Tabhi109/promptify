@@ -1,10 +1,10 @@
-// components/UserProfileForm.tsx
-
 import React, { useState } from 'react';
 import UserNameInput from './user-name-input';
 import UserBioInput from './user-bio-input';
 import UserDOB from './user-dob-input';
 import PreferredTags from './user-preferred-tags';
+import UserProfilePictureInput from './user-profile-pic-input'; 
+import UserLocationInput from './user-location-input'; 
 
 interface UserProfileFormProps {
   onSubmit: (userData: UserProfileData) => void;
@@ -16,6 +16,8 @@ export interface UserProfileData {
   bio: string;
   dob: Date | null;
   preferredTags: string[];
+  profilePicture: string | null;
+  location: string; 
 }
 
 const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
@@ -25,16 +27,23 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
     bio: '',
     dob: null,
     preferredTags: [],
+    profilePicture: null,
+    location: '',
   });
 
   const handleInputChange = (
     field: keyof UserProfileData,
-    value: string | Date | string[] | null
+    value: string | Date | string[] | File | null
   ) => {
     setUserData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
+  };
+
+  const handleFetchLocation = () => {
+    // Implement fetching user's current location here
+    // For example: navigator.geolocation.getCurrentPosition(...);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -46,6 +55,15 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
     <div className="max-w-md mx-auto bg-gray-800 p-8 shadow-md rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">Create Your Profile</h2>
       <form onSubmit={handleSubmit}>
+      <UserProfilePictureInput
+          profilePicture={userData.profilePicture}
+          onChange={(file) => handleInputChange('profilePicture', file)}
+        />
+        <UserLocationInput
+          location={userData.location}
+          onFetchLocation={handleFetchLocation}
+          onChange={(value) => handleInputChange('location', value)}
+        />
         <UserNameInput
           firstName={userData.firstName}
           lastName={userData.lastName}
