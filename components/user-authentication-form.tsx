@@ -32,6 +32,9 @@ const UserAuthenticationForm: React.FC = () => {
       // Handle error
     }
   };
+  const handleSignUp =() => {
+    router.push('/user_profile_creation');
+  }
 
   return (
     <div className="max-w-md mx-auto p-6 bg-gray-900 rounded-lg shadow-lg">
@@ -49,10 +52,16 @@ const UserAuthenticationForm: React.FC = () => {
           }}
         />
         <button
-          type="submit"
-          className="bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 mt-4 rounded-md"
+          onClick={handleSubmit}
+          className="ml-20 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 mt-4 rounded-md"
         >
-          Authenticate
+          Log In
+        </button>
+        <button
+          onClick={handleSignUp}
+          className="ml-20 bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 mt-4 rounded-md"
+        >
+          Sign Up
         </button>
       </form>
     </div>
