@@ -1,7 +1,7 @@
 // components/UserAuthenticationForm.tsx
 
 import React, { useState } from 'react';
-import UserCredentialsInput from './user-credential-input'; // Assuming you have this component
+import UserCredentialsInput from './user-credential-input';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 
