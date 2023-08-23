@@ -1,11 +1,12 @@
+
 import React, { useState } from 'react';
 import UserNameInput from './user-name-input';
 import UserBioInput from './user-bio-input';
 import UserDOB from './user-dob-input';
 import PreferredTags from './user-preferred-tags';
 import UserProfilePictureInput from './user-profile-pic-input'; 
-import UserLocationInput from './user-location-input'; 
-
+import UserLocationInput from './user-location-input';
+import UserCredentialsInput from './user-credential-input';
 interface UserProfileFormProps {
   onSubmit: (userData: UserProfileData) => void;
 }
@@ -17,7 +18,9 @@ export interface UserProfileData {
   dob: Date | null;
   preferredTags: string[];
   profilePicture: string | null;
-  location: string; 
+  location: string;
+  email: string;
+  password: string;
 }
 
 const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
@@ -29,6 +32,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
     preferredTags: [],
     profilePicture: null,
     location: '',
+    email: '', // Initialize email
+    password: '', // Initialize password
   });
 
   const handleInputChange = (
@@ -55,7 +60,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
     <div className="max-w-md mx-auto bg-gray-800 p-8 shadow-md rounded-lg">
       <h2 className="text-2xl font-semibold mb-4">Create Your Profile</h2>
       <form onSubmit={handleSubmit}>
-      <UserProfilePictureInput
+        <UserProfilePictureInput
           profilePicture={userData.profilePicture}
           onChange={(file) => handleInputChange('profilePicture', file)}
         />
@@ -63,6 +68,11 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
           location={userData.location}
           onFetchLocation={handleFetchLocation}
           onChange={(value) => handleInputChange('location', value)}
+        />
+        <UserCredentialsInput
+          email={userData.email}
+          password={userData.password}
+          onChange={(field, value) => handleInputChange(field, value)}
         />
         <UserNameInput
           firstName={userData.firstName}
@@ -93,3 +103,7 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
 };
 
 export default UserProfileForm;
+
+
+
+ 
