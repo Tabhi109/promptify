@@ -7,6 +7,7 @@ import PreferredTags from './user-preferred-tags';
 import UserProfilePictureInput from './user-profile-pic-input'; 
 import UserLocationInput from './user-location-input';
 import UserCredentialsInput from './user-credential-input';
+import axios from 'axios';
 interface UserProfileFormProps {
   onSubmit: (userData: UserProfileData) => void;
 }
@@ -32,8 +33,8 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
     preferredTags: [],
     profilePicture: null,
     location: '',
-    email: '', // Initialize email
-    password: '', // Initialize password
+    email: '', 
+    password: '',
   });
 
   const handleInputChange = (
@@ -45,16 +46,42 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
       [field]: value,
     }));
   };
-
+  const fetchUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          handleInputChange('location', `Point(${longitude} ${latitude})`);
+        },
+        (error) => {
+          console.error('Error fetching location:', error);
+          // Handle error
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+      // Handle error
+    }
+  };
   const handleFetchLocation = () => {
-    // Implement fetching user's current location here
-    // For example: navigator.geolocation.getCurrentPosition(...);
+    fetchUserLocation();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(userData);
+
+    try {
+      // Send the data to the API
+      await axios.post('http://localhost:3000/api/user/create', userData);
+
+      // Call the onSubmit callback with the latest state
+      onSubmit(userData);
+    } catch (error) {
+      console.error('Error creating user:', error);
+      // Handle error
+    }
   };
+
 
   return (
     <div className="max-w-md mx-auto bg-gray-800 p-8 shadow-md rounded-lg">
@@ -65,10 +92,10 @@ const UserProfileForm: React.FC<UserProfileFormProps> = ({ onSubmit }) => {
           onChange={(file) => handleInputChange('profilePicture', file)}
         />
         <UserLocationInput
-          location={userData.location}
-          onFetchLocation={handleFetchLocation}
-          onChange={(value) => handleInputChange('location', value)}
-        />
+        location={userData.location}
+        onFetchLocation={handleFetchLocation}
+        onChange={(value) => handleInputChange('location', value)}
+      />
         <UserCredentialsInput
           email={userData.email}
           password={userData.password}

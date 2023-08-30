@@ -22,10 +22,11 @@ const UserAuthenticationForm: React.FC = () => {
       const { data } = response;
 
       if (data.id) {
-        router.push(`/newsfeed/${data.id}`);
+        router.push(`/news-feed/${data.id}`);
       } else {
         // Handle authentication failure
-        console.log('Authentication failed');
+        alert('Authentication failed');
+        router.reload();
       }
     } catch (error) {
       console.error('Error during authentication:', error);
